@@ -2,14 +2,40 @@
 ## functions do
 
 ## Write a short comment describing this function
+makeCacheMatrix <- function( m = matrix() ) {
 
-makeCacheMatrix <- function(x = matrix()) {
+    m_i <- NULL
 
+    set <- function( matrix ) {
+            m <<- matrix
+            m_i <<- NULL
+    }
+
+    get <- function() {
+    	m
+    }
+
+    setInverse <- function(inverse) {
+        m_i <<- inverse
+    }
+
+    getInverse <- function() {
+        m_i
+    }
+
+    list(set = set, get = get,
+         setInverse = setInverse,
+         getInverse = getInverse)
 }
 
 
-## Write a short comment describing this function
-
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+    m <- x$getInverse()
+    if( !is.null(m) ) {
+            return(m)
+    }
+    data <- x$get()
+    m <- solve(data,...)
+    x$setInverse(m)
+    m
 }
